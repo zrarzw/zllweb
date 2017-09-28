@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Created by Athos on2016-09-04.颠三倒四
+ * Created by Athos on2016-09-04  .颠三倒四
  */
 @SuppressWarnings("unchecked")
 @Target(ElementType.TYPE)
