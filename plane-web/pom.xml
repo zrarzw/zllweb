@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.phantom</groupId>
+		<artifactId>plane</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<groupId>com.phantom</groupId>
+	<artifactId>plane-web</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>plane-web Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+	<dependencies>
+				
+		<!--要打成war包执行，需要该依赖 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-legacy</artifactId>
+		</dependency>
+		<!-- 要打成war包执行，去掉内嵌的tomcat -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency> 
+      <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+		<!--jsp页面使用jstl标签 -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+		<!--用于编译jsp -->
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
+			<!-- 依赖的业务模块 -->
+		<dependency>
+			<groupId>com.phantom</groupId>
+			<artifactId>plane-sys</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+			<dependency>
+			<groupId>com.phantom</groupId>
+			<artifactId>plane-core</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+			<dependency>
+			<groupId>com.phantom</groupId>
+			<artifactId>plane-login</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency> 
+	</dependencies>
+	
+	<build>
+		<finalName>plane-web</finalName>
+	</build>
+</project>
