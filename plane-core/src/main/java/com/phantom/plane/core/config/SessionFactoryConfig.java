@@ -26,6 +26,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 
 import com.github.pagehelper.PageHelper;
 import com.phantom.plane.core.datasource.DataSourceRouting;
@@ -60,6 +61,15 @@ public class SessionFactoryConfig {
 	@Resource(name = "readDataSource")
 	private DataSource readDataSource;
 	
+	@Value("${spring.jpa.hibernate.dialect}")
+	 private String dialect;
+	   
+	 @Value("${spring.jpa.format-sql}")
+	  private String formatSql;
+	    
+	 @Value("${spring.jpa.show-sql}")
+	  private String showSql;
+	    
 	private SqlSession sqlSession;
 	// 多个读库配置
 	/*
@@ -146,18 +156,23 @@ public class SessionFactoryConfig {
 	 */
 
 	@Bean(name = "sessionFactory")
-	public SessionFactory sessionFactory() {
-		AnnotationSessionFactoryBean bean = new AnnotationSessionFactoryBean();
+	public LocalSessionFactoryBean sessionFactory() {
+		
 		logger.info("springboot---------->装载动态hibernate SessionFactory");
-		bean.setDataSource(dataSourceProxy());
-
-		try {
-			return bean.getObject();
-		} catch (Exception e) {
-			
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		}
+		 LocalSessionFactoryBean localSessionFactoryBean = new LocalSessionFactoryBean();
+	        localSessionFactoryBean.setDataSource(dataSourceProxy());
+	        Properties properties1 = new Properties();
+	        properties1.setProperty("hibernate.dialect", dialect);
+	        properties1.setProperty("hibernate.show_sql", showSql);
+	        properties1.setProperty("hibernate.format_sql", formatSql);
+	        localSessionFactoryBean.setHibernateProperties(properties1);
+	        localSessionFactoryBean.setPackagesToScan("com.phantom.plane.*.pojo");
+//	        ResourceLoader resourceLoader = new DefaultResourceLoader();
+//	        Resource resource = resourceLoader.getResource("resource/");
+//	        localSessionFactoryBean.setMappingDirectoryLocations(resource);
+	        //设置拦截器
+//	        localSessionFactoryBean.setEntityInterceptor(this.auditInterceptor());
+	        return localSessionFactoryBean;
 
 	}
 	
@@ -171,7 +186,7 @@ public class SessionFactoryConfig {
 	   @Bean(name="hbTemplate")
 		public HibernateTemplate hibernateTemplate() {
 			HibernateTemplate hibernateTemplate = new HibernateTemplate();
-			hibernateTemplate.setSessionFactory(sessionFactory());
+			hibernateTemplate.setSessionFactory(sessionFactory().getObject());
 			return hibernateTemplate;
 		}
 	   
