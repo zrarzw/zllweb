@@ -154,6 +154,7 @@ public class SessionFactoryConfig {
 		try {
 			return bean.getObject();
 		} catch (Exception e) {
+			
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
