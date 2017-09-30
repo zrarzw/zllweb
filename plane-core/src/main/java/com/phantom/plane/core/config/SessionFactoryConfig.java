@@ -140,7 +140,7 @@ public class SessionFactoryConfig {
 
 	/**
 	 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	 * 构建hibernate SessionFactory
+	 * 构建hibernate SessionFactory没有
 	 * 
 	 * @return SqlSessionFactory
 	 */
