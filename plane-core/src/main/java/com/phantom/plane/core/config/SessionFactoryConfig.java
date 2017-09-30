@@ -11,21 +11,26 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.apache.ibatis.plugin.Interceptor;
+import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
+import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean;
 
 import com.github.pagehelper.PageHelper;
 import com.phantom.plane.core.datasource.DataSourceRouting;
 import com.phantom.plane.core.datasource.DataSourceType;
+import com.phantom.plane.core.mybatis.MyBatisBaseDaoImpl;
 
 
 /**
@@ -54,6 +59,8 @@ public class SessionFactoryConfig {
 
 	@Resource(name = "readDataSource")
 	private DataSource readDataSource;
+	
+	private SqlSession sqlSession;
 	// 多个读库配置
 	/*
 	 * @Resource(name = "readDataSources") private List<DataSource>
@@ -152,5 +159,29 @@ public class SessionFactoryConfig {
 		}
 
 	}
+	
+	
+	 @Bean(name="jdbcTemplate")
+		public JdbcTemplate jdbcTemplate() {
+			JdbcTemplate JdbcTemplate = new JdbcTemplate();
+			JdbcTemplate.setDataSource(dataSourceProxy());
+			return JdbcTemplate;
+		}
+	   @Bean(name="hbTemplate")
+		public HibernateTemplate hibernateTemplate() {
+			HibernateTemplate hibernateTemplate = new HibernateTemplate();
+			hibernateTemplate.setSessionFactory(sessionFactory());
+			return hibernateTemplate;
+		}
+	   
+	   @Bean(name="sqlSession")
+		public SqlSession getSqlSession() {
+			if (null == sqlSession) {
+				synchronized (MyBatisBaseDaoImpl.class) {
+					this.sqlSession = new SqlSessionTemplate(sqlSessionFactorys());
+				}
+			}
+			return this.sqlSession;
+		}
 
 }

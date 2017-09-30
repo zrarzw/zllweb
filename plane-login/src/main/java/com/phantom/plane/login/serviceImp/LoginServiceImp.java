@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import com.phantom.plane.core.interfacer.IBaseZrarDao;
 import com.phantom.plane.login.pojo.UserBO;
 import com.phantom.plane.login.service.LoginService;
 
@@ -21,7 +22,8 @@ import com.phantom.plane.login.service.LoginService;
 @Service
 public class LoginServiceImp implements LoginService{
 	
-	@Resource
+	  @Resource
+	   private IBaseZrarDao dao;
 	
 	private Logger logger = Logger.getLogger(LoginServiceImp.class);
 
@@ -31,7 +33,10 @@ public class LoginServiceImp implements LoginService{
 		 logger.debug("输出debug");
 	
 			logger.error("输出error");
+			
+			dao.getBO(UserBO.class, 1);
 		 System.out.println(this.getClass().getName());
+		return user;
 		
 	}
 }

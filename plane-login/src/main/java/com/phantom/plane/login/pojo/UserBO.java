@@ -2,12 +2,12 @@ package com.phantom.plane.login.pojo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.phantom.plane.core.base.BaseEntity;
-
-import com.phantom.plane.login.mapper.LoginMapper;
 
 import tk.mybatis.mapper.annotation.NameStyle;
 import tk.mybatis.mapper.code.Style;
@@ -20,10 +20,10 @@ import tk.mybatis.mapper.code.Style;
 @Table(name = "user")
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 
-public class UserBO extends BaseEntity{
-	/*@Id
+public class UserBO {
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;*/
+    private Integer id;
 	 @Column
     private String account; 
 	 @Column
@@ -31,13 +31,13 @@ public class UserBO extends BaseEntity{
 	 @Column
     private Integer age;
 
-  /*  public Integer getId() {
+ public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
-    }*/
+    }
     public String getAccount() {
  		return account;
  	}

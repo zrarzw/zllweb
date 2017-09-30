@@ -43,8 +43,8 @@ public abstract class BaseUtilDao extends BasePersistenceDao implements IBaseZra
 	@Override
 	public Blob createBlob(byte[] bytes) throws BaseException {
 		try {
-			Blob newBlob = Hibernate.createBlob(bytes,
-					templateHiberate.getSessionFactory().getCurrentSession());
+			Blob newBlob = Hibernate.getLobCreator(
+					templateHiberate.getSessionFactory().getCurrentSession()).createBlob(bytes);
 			return newBlob;
 		} catch (HibernateException e) {
 			throw new BusinessException(e);

@@ -1,10 +1,13 @@
 package com.phantom.plane.core.base;
 
 
+import javax.annotation.Resource;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.stereotype.Repository;
 
 import com.phantom.plane.core.exception.ConfigException;
 
@@ -20,10 +23,13 @@ import com.phantom.plane.core.utils.ConnectHelper;
  * @author GreenZHAO
  * 
  */
+@Repository(value = "dao")
 public class BaseZrarDaoFactory implements FactoryBean<IBaseZrarDao> {
-	
+	   @Resource
 	private HibernateTemplate hbTemplate;
+	   @Resource
 	private JdbcTemplate jdbcTemplate;
+	   @Resource
 	private SqlSession sqlSession;
 	private String dbType;
 

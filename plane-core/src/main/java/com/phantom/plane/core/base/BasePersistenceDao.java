@@ -39,6 +39,7 @@ import org.springframework.jdbc.support.lob.DefaultLobHandler;
 import org.springframework.jdbc.support.lob.LobCreator;
 import org.springframework.jdbc.support.lob.LobHandler;
 import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.stereotype.Repository;
 
 import com.phantom.plane.core.exception.PersistenceException;
 import com.phantom.plane.core.interfacer.IBaseZrarDao;
@@ -134,8 +135,8 @@ public abstract class BasePersistenceDao implements IBaseZrarDao{
 	}
 
 	@Override
-	public void saveOrUpdateBO(Collection t) {
-		templateHiberate.saveOrUpdateAll(t);
+	public void saveOrUpdateBO(Object t) {
+		templateHiberate.saveOrUpdate(t);;
 		templateHiberate.flush();
 	}
 

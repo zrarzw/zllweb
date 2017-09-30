@@ -880,6 +880,14 @@ public interface IBaseZrarDao extends Serializable{
 	 * @since 3.0.4
 	 */
 	public String getDatabaseType();
+
+
+
+	/**
+	* <p>Title: </p>
+	* <p>Description: </p>
+	*/
+	void saveOrUpdateBO(Object t);
 	
 
 }

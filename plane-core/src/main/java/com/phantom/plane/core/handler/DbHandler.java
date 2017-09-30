@@ -14,9 +14,9 @@ package com.phantom.plane.core.handler;
 
 import java.util.Date;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.classic.Session;
 
 import com.phantom.plane.core.base.BaseException;
 import com.phantom.plane.core.common.EwSysLogError;

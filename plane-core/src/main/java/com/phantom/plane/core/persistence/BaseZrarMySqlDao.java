@@ -17,6 +17,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -255,6 +256,15 @@ public class BaseZrarMySqlDao extends BaseZrarDao implements IBaseZrarDao{
 	public IPagination pageQuery(String sql, List params){
 		IPagination page = getPageParams();
 		return pageQuery(sql, params, page);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.phantom.plane.core.interfacer.IBaseZrarDao#saveOrUpdateBO(java.util.Collection)
+	 */
+	@Override
+	public void saveOrUpdateBO(Collection t) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

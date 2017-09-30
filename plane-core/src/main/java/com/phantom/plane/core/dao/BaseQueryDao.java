@@ -24,8 +24,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-
-
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.hibernate.Criteria;
@@ -34,8 +32,8 @@ import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.engine.SessionFactoryImplementor;
-import org.hibernate.hql.ast.QueryTranslatorImpl;
+import org.hibernate.engine.spi.SessionFactoryImplementor;
+import org.hibernate.hql.internal.ast.QueryTranslatorImpl;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.support.AbstractLobStreamingResultSetExtractor;
@@ -52,7 +50,10 @@ import com.phantom.plane.core.utils.BeanCreator;
 import com.phantom.plane.core.utils.ClosableResourcePool;
 import com.phantom.plane.core.utils.RsBeanUtil;
 import com.phantom.plane.core.utils.StringUtil;
+
 import sun.jdbc.rowset.CachedRowSet;
+
+
 
 public abstract class BaseQueryDao extends BaseUtilDao implements IBaseZrarDao{
 
@@ -66,17 +67,17 @@ public abstract class BaseQueryDao extends BaseUtilDao implements IBaseZrarDao{
 
 	@Override
 	public <T> List<T> find(String hql) {
-		return templateHiberate.find(hql);
+		return (List<T>) templateHiberate.find(hql);
 	}
 
 	@Override
 	public <T> List<T> find(String hql, Object parameter) {
-		return templateHiberate.find(hql, parameter);
+		return (List<T>) templateHiberate.find(hql, parameter);
 	}
 
 	@Override
 	public <T> List<T> find(String hql, Object... values) {
-		return templateHiberate.find(hql, values);
+		return (List<T>) templateHiberate.find(hql, values);
 	}
 
 	@Override

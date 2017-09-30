@@ -1,4 +1,4 @@
-package com.phantom.plane.sys.dao;
+/*package com.phantom.plane.sys.dao;
 
 
 
@@ -9,4 +9,4 @@ import com.phantom.plane.sys.pojo.User;
 public interface UserDao {
 
     User selectByUser(User user);
-}
+}*/

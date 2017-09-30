@@ -1,4 +1,4 @@
-package com.phantom.plane.sys.mapper;
+/*package com.phantom.plane.sys.mapper;
 
 import com.phantom.plane.sys.pojo.User;
 
@@ -8,3 +8,4 @@ public interface UserMapper extends Mapper<User>{
 	 public User selectByUser(User user);
 	 public void insertdemo(User user);
 }
+*/
