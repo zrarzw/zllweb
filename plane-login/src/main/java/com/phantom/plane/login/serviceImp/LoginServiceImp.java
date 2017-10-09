@@ -28,15 +28,11 @@ public class LoginServiceImp implements LoginService{
 	private Logger logger = Logger.getLogger(LoginServiceImp.class);
 
 	 public UserBO selectByUser(UserBO user) {
-		 logger.info("输出info");
-		
-		 logger.debug("输出debug");
-	
-			logger.error("输出error");
-			
-			dao.getBO(UserBO.class, 1);
+		 logger.info("输出info");		
+		 logger.debug("输出debug");	
+		 logger.error("输出error");			
+		 dao.getBO(UserBO.class, 2);
 		 System.out.println(this.getClass().getName());
-		return user;
-		
+		 return user;		
 	}
 }
