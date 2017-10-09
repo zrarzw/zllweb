@@ -1,15 +1,24 @@
 /**
+ * <p>
+ * project:plane-core
+ * </p>
+ * <p>
+ * Description:工厂配置信息
+ * </p>
+ * <p>
+ * Company:
+ * </p>
  * 
+ * @author zw
+ * @date 2017年9月22日上午11:11:44
  */
 package com.phantom.plane.core.config;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-
 import javax.annotation.Resource;
 import javax.sql.DataSource;
-
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -27,31 +36,19 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
-
 import com.github.pagehelper.PageHelper;
 import com.phantom.plane.core.datasource.DataSourceRouting;
 import com.phantom.plane.core.datasource.DataSourceType;
 import com.phantom.plane.core.mybatis.MyBatisBaseDaoImpl;
 
+import tk.mybatis.mapper.common.Mapper;
+import tk.mybatis.spring.mapper.MapperScannerConfigurer;
 
-/**
- * <p>
- * project:plane-core
- * </p>
- * <p>
- * Description:工厂配置信息
- * </p>
- * <p>
- * Company:
- * </p>
- * 
- * @author zw
- * @date 2017年9月22日上午11:11:44
- */
 @Configuration
 public class SessionFactoryConfig {
 	@SuppressWarnings("unused")
 	private static Logger logger = Logger.getLogger(SessionFactoryConfig.class);
+	
 	@Value("${spring.datasource.readSize}")
 	private String dataSourceSize;
 
@@ -85,12 +82,11 @@ public class SessionFactoryConfig {
 	private DataSource getReadDataSource() {
 		return readDataSource;
 	}
-
 	/**
-	 * AbstractRoutingDataSource 这破玩意 继承了AbstractDataSource
-	 * ,AbstractDataSource又实现了DataSource 所以可以直接丢去构建 SqlSessionFactory
+	 * ~~~~~~~~~~~~~~~~~~~~~~~构建动态dataSource~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 	 * 
-	 * @return
+	 *	AbstractRoutingDataSource 这破玩意 继承了AbstractDataSource
+	 * ,AbstractDataSource又实现了DataSource 所以可以直接丢去构建 SqlSessionFactory
 	 */
 	@Bean(name = "dataSource")
 	public AbstractRoutingDataSource dataSourceProxy() {
@@ -113,14 +109,14 @@ public class SessionFactoryConfig {
 		proxy.setTargetDataSources(dataSourceMap);
 		return proxy;
 	}
-
+	/*********************SessionFactory 开始*************************/
+		
 	/**
-	 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 构建mybatis
+	 * ~~~~~~~~~~~~~~~~~~~~~~~构建mybatis~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 	 * SqlSessionFactory
 	 * 
 	 * @return SqlSessionFactory
 	 */
-
 	@Bean(name = "sqlSessionFactory")
 	public SqlSessionFactory sqlSessionFactorys() {
 		logger.info("springboot---------->装载动态sqlSessionFactory");
@@ -148,9 +144,24 @@ public class SessionFactoryConfig {
 		}
 	}
 
+	@Bean
+	public MapperScannerConfigurer mapperScannerConfigurer() {
+		logger.info("springboot---------->装载mybatis的mapper");
+		MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
+		mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
+		// 这里的BasePackage 不能写com.training,估计跟spring 的扫描冲突,会实例化两个service,应该需要重构目录
+		mapperScannerConfigurer.setBasePackage("com.phantom.plane.*.dao。*");
+		Properties properties = new Properties();
+		properties.setProperty("mappers", Mapper.class.getName());
+		properties.setProperty("notEmpty", "false");
+		properties.setProperty("IDENTITY", "MYSQL");
+		mapperScannerConfigurer.setProperties(properties);
+		return mapperScannerConfigurer;
+	}
+	
 	/**
-	 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	 * 构建hibernate SessionFactory没有
+	 * ~~~~~~~~~~~~~~~~~构建hibernate sessionFactory~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	 * 
 	 * 
 	 * @return SqlSessionFactory
 	 */
@@ -175,21 +186,38 @@ public class SessionFactoryConfig {
 	        return localSessionFactoryBean;
 
 	}
-	
-	
+	/*********************SessionFactory 结束*************************/	
+	/*********************模板 开始*************************/
+	/**
+	 * ~~~~~~~~~~~~~~~~~构建jdbcTemplate模板~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	 * 
+	 * 
+	 * @return JdbcTemplate
+	 */
 	 @Bean(name="jdbcTemplate")
 		public JdbcTemplate jdbcTemplate() {
 			JdbcTemplate JdbcTemplate = new JdbcTemplate();
 			JdbcTemplate.setDataSource(dataSourceProxy());
 			return JdbcTemplate;
 		}
+		/**
+		 * ~~~~~~~~~~~~~~~~~构建hbTemplate模板~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		 * 
+		 * 
+		 * @return JdbcTemplate
+		 */
 	   @Bean(name="hbTemplate")
 		public HibernateTemplate hibernateTemplate() {
 			HibernateTemplate hibernateTemplate = new HibernateTemplate();
 			hibernateTemplate.setSessionFactory(sessionFactory().getObject());
 			return hibernateTemplate;
 		}
-	   
+	   /**
+		 * ~~~~~~~~~~~~~~~~~构建mybatis模板~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		 * 
+		 * 
+		 * @return sqlSession
+		 */
 	   @Bean(name="sqlSession")
 		public SqlSession getSqlSession() {
 			if (null == sqlSession) {
