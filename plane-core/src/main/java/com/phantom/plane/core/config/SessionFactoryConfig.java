@@ -216,7 +216,7 @@ public class SessionFactoryConfig {
 		 * ~~~~~~~~~~~~~~~~~构建mybatis模板~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		 * 
 		 * 
-		 * @return sqlSession
+		 * @return  sqlSession
 		 */
 	   @Bean(name="sqlSession")
 		public SqlSession getSqlSession() {
