@@ -201,7 +201,7 @@ public class SessionFactoryConfig {
 			return JdbcTemplate;
 		}
 		/**
-		 * ~~~~~~~~~~~~~~~~~构建hbTemplate模板~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		 * ~~~~~~~~~~~~~~~~~构建hbTemplate模板  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		 * 
 		 * 
 		 * @return JdbcTemplate
